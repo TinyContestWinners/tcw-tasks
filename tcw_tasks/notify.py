@@ -51,6 +51,8 @@ def notify_owner(contest, winners):
     with smtplib.SMTP('localhost') as s:
         s.send_message(msg)
 
+    logger.info("User %s notified successfully" % contest.email)
+
 
 if __name__ == '__main__':
     main()
