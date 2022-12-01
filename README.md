@@ -1,2 +1,2 @@
 # tcw-tasks
-Celery worker for the TCW contest closure
+Command line script ```tcwinners```, for the tcw contest app.

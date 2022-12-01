@@ -1,0 +1,2 @@
+# run the contest tcwinners script every minute
+* * * * * tcwinners
