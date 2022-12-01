@@ -3,10 +3,9 @@ import sys
 import logging
 import smtplib
 from email.message import EmailMessage
-from tcw.config import Development, Production
 from tcw.database import session, init_engine
 from tcw.utils import expired_contests
-from tcw.apps.contest.models import Contest, Entrant
+from tcw.apps.contest.models import Contest
 from tcw_tasks.models import Message
 
 
