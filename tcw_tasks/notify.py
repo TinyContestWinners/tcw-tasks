@@ -1,12 +1,11 @@
 import os
 import sys
 import logging
-import smtplib
-from email.message import EmailMessage
 from tcw.database import session, init_engine
 from tcw.utils import expired_contests
 from tcw.apps.contest.models import Contest
 from tcw_tasks.models import Message
+from sendgrid import SendGridAPIClient
 
 
 # globals #
@@ -48,9 +47,8 @@ def finish_contests():
 
 def notify_owner(contest, winners):
     msg = Message(contest=contest, winners=winners).get_message()
-    with smtplib.SMTP('localhost') as s:
-        s.send_message(msg)
-
+    client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
+    response = client.send(message=msg)
     logger.info("Owner notified successfully" % contest.email)
 
 
