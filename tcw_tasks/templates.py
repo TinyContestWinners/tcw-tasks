@@ -32,10 +32,10 @@ HTML_TEMPLATE = """
   <body>
     <div class="container">
         <h3>Contest Expired</h3>
-        Contest Name: {{ contest.name }}
+        Contest Name: {{ contest.title }}
         <h3>Statistics</h3>
         <table>
-            <tr><td>max entrants</td><td>{{ contest.max }}</td></tr>
+            <tr><td>max entrants</td><td>{{ contest.max_entrants }}</td></tr>
             <tr><td>number of winners</td><td>{{ winners | length }}</td></tr>
             <tr><td>sign ups</td><td>{{ contest.entrants | length }}</td></tr>
             <tr><td>expired</td><td>{{ contest.expires.strftime('%Y-%m-%d %H:%M:%S') }} UTC</td></tr>

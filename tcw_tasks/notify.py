@@ -52,7 +52,7 @@ def notify_owner(contest, winners):
     msg = Message(contest=contest, winners=winners).get_message()
     client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
     response = client.send(message=msg)
-    logger.info("Owner notified successfully" % contest.email)
+    logger.info("Owner notified successfully")
 
 
 if __name__ == '__main__':
