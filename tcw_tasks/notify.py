@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import logging
 from tcw.database import session, init_engine
 from tcw.utils import expired_contests
@@ -22,7 +23,9 @@ def main():
         sys.exit(1)
 
     init_engine(uri)
-    finish_contests()
+    while True:
+        time.sleep(60)
+        finish_contests()
 
 
 def finish_contests():
