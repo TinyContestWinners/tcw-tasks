@@ -1,2 +1,0 @@
-# run the contest tcwinners script every other minute
-*/2 * * * * tcwinners

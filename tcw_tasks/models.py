@@ -35,6 +35,10 @@ class Message:
             PlainTextContent(self._get_text_msg()),
             HtmlContent(self._get_html_msg()),
         )
+        try:
+            logger.info(self.message.__dict__)
+        except:
+            pass
 
         return self.message
 

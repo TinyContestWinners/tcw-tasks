@@ -20,6 +20,8 @@ Thank You!
 {%- else %}
 Sorry. There were no winners selected, because no one signed up.
 {% endif %}
+
+Please do not respond directly to this e-mail. The originating e-mail account is not monitored.
 """
 
 HTML_TEMPLATE = """
@@ -52,6 +54,10 @@ HTML_TEMPLATE = """
         {%- else %}
         <p>Sorry. There were no winners selected, because no one signed up.</p>
         {% endif %}
+
+        <p style="color: #BBB;">
+            Please do not respond directly to this e-mail. The originating e-mail account is not monitored.
+        </p>
     </div>
   </body>
 </html>
