@@ -27,7 +27,7 @@ def main():
     logger.info("STARTING")
     while True:
         finish_contests()
-        time.sleep(random.randint(30,90))
+        time.sleep(random.randint(60,180))
 
 
 def finish_contests():
