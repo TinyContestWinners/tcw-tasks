@@ -54,7 +54,7 @@ def notify_owner(contest, winners):
     msg = Message(contest=contest, winners=winners).get_message()
     client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
     response = client.send(msg)
-    if response.status_code == 200:
+    if response.status_code in [200, 201, 202]:
         logger.info("Owner notified successfully")
         return
     else:
