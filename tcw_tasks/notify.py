@@ -54,12 +54,6 @@ def notify_owner(contest, winners):
     msg = Message(contest=contest, winners=winners).get_message()
     client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
     response = client.send(msg)
-    if int(response.status_code) in [200, 201, 202]:
-        logger.info("Owner notified successfully")
-        return
-    else:
-        err = "Email error: (%d) %s" % (response.status_code, response.body)
-        raise RuntimeError(err)
 
 
 if __name__ == '__main__':
