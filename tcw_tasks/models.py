@@ -2,23 +2,29 @@ import os
 import jinja2
 from sendgrid.helpers.mail import (Mail, From, To, Subject, PlainTextContent,
     HtmlContent)
+from email.message import EmailMessage
 from tcw_tasks.templates import TEXT_TEMPLATE, HTML_TEMPLATE
 
 
-class Message:
+class Formatter:
+    def text_from_template(self, contest):
+        msg = jinja2.Template(TEXT_TEMPLATE).render(contest=contest)
+        return msg.strip()
+
+    def html_from_template(self, contest):
+        msg = jinja2.Template(HTML_TEMPLATE).render(contest=contest)
+        return msg.strip()
+
+
+class Message(Formatter):
     """
     Create email message for a finished contest
-
-    # v0.0.4, migrated to sendgrid
     """
 
     def __init__(self, *args, **kwargs):
         self.contest = None
-        self.winners = None
         self.mail_from = os.getenv('TCW_MAIL_FROM', 'user@localhost')
-        self.message = None
         self.subject = 'Your ContestKitty contest results'
-        self.html = True
         for k, v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)
@@ -27,37 +33,32 @@ class Message:
             raise Exception('Contest object required')
 
 
-    def get_message(self):
-        self.message = Mail(
+    def get_message(self, local=True):
+        if local:
+            return self._get_email_msg()
+        else:
+            return self._get_sendgrid_msg()
+
+
+    def _get_sendgrid_msg(self):
+        msg = Mail(
             From(self.mail_from),
             To(self.contest.email),
             Subject(self.subject),
-            PlainTextContent(self._get_text_msg()),
-            HtmlContent(self._get_html_msg()),
-        )
-        try:
-            logger.info(self.message.__dict__)
-        except:
-            pass
+            PlainTextContent(self.text_from_template(self.contest)),
+            HtmlContent(self.html_from_template(self.contest)))
 
-        return self.message
+        return msg
 
 
-    def _get_text_msg(self):
-        """
-        Add plain text info to the email message
-        """
+    def _get_email_msg(self):
+        msg = EmailMessage()
+        msg['Subject'] = self.subject
+        msg['From'] = self.mail_from
+        msg['To'] = self.contest.email
 
-        msg = jinja2.Template(TEXT_TEMPLATE).render(contest=self.contest,
-            winners=self.winners)
-        return msg.strip()
+        msg.set_content(self.text_from_template(self.contest))
+        msg.add_alternative(self.html_from_template(self.contest),
+            subtype='html')
 
-
-    def _get_html_msg(self):
-        """
-        Add HTML formatted text into the email message
-        """
-
-        msg = jinja2.Template(HTML_TEMPLATE).render(contest=self.contest,
-            winners=self.winners)
-        return msg.strip()
+        return msg

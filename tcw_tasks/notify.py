@@ -3,6 +3,8 @@ import sys
 import time
 import logging
 import random
+import datetime
+import smtplib
 from tcw.database import session, init_engine
 from tcw.utils import expired_contests
 from tcw.apps.contest.models import Contest
@@ -31,6 +33,8 @@ def main():
 
 
 def finish_contests():
+    now = datetime.datetime.now()
+
     try:
         contests = expired_contests()
         logger.info("%d contests pending closure" % len(contests))
@@ -40,20 +44,28 @@ def finish_contests():
 
     for c in contests:
         try:
-            winners = c.pick_winners()
-            notify_owner(c, winners)
+            if 'winners' not in c.attributes:
+                c.attributes['winners'] = c.pick_winners()
+
+            notify_owner(c)
             logger.info("Closing contest (%s) %s" % (c.name, c.title))
             session.delete(c)
             session.commit()
+
         except Exception as x:
             logger.warning(x)
             session.rollback()
 
 
-def notify_owner(contest, winners):
-    msg = Message(contest=contest, winners=winners).get_message()
-    client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
-    response = client.send(msg)
+def notify_owner(contest):
+    local = not bool(os.getenv('SENDGRID_API_KEY', 0))
+    msg = Message(contest=contest).get_message(local)
+    if local:
+        with smtplib.SMTP('localhost', 25) as s:
+            s.send_message(msg)
+    else:
+        client = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
+        response = client.send(msg)
 
 
 if __name__ == '__main__':
