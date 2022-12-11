@@ -43,9 +43,11 @@ def finish_contests():
         return
 
     for c in contests:
+        print(c)
         try:
-            if 'winners' not in c.attributes:
-                c.attributes['winners'] = c.pick_winners()
+            if c.attributes is None or 'winners' not in c.attributes:
+                winners = c.pick_winners()
+                c.attributes = {'winners': winners}
 
             notify_owner(c)
             logger.info("Closing contest (%s) %s" % (c.name, c.title))
