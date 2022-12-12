@@ -5,11 +5,11 @@ import logging
 import random
 import datetime
 import smtplib
+from sendgrid import SendGridAPIClient
 from tcw.database import session, init_engine
 from tcw.utils import expired_contests
 from tcw.apps.contest.models import Contest
 from tcw_tasks.models import Message
-from sendgrid import SendGridAPIClient
 
 
 # globals #
@@ -29,11 +29,11 @@ def main():
     logger.info("STARTING")
     while True:
         finish_contests()
-        time.sleep(random.randint(60,180))
+        time.sleep(60)
 
 
 def finish_contests():
-    now = datetime.datetime.now()
+    contests = []
 
     try:
         contests = expired_contests()
@@ -43,11 +43,11 @@ def finish_contests():
         return
 
     for c in contests:
-        print(c)
         try:
             if c.attributes is None or 'winners' not in c.attributes:
                 winners = c.pick_winners()
                 c.attributes = {'winners': winners}
+                session.commit()
 
             notify_owner(c)
             logger.info("Closing contest (%s) %s" % (c.name, c.title))

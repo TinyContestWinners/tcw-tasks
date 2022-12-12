@@ -24,7 +24,7 @@ class Message(Formatter):
     def __init__(self, *args, **kwargs):
         self.contest = None
         self.mail_from = os.getenv('TCW_MAIL_FROM', 'user@localhost')
-        self.subject = 'Your ContestKitty contest results'
+        self.subject = 'Your Contest Kitty contest results'
         for k, v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)
