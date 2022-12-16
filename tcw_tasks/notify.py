@@ -7,8 +7,8 @@ import datetime
 import smtplib
 from sendgrid import SendGridAPIClient
 from tcw.database import session, init_engine
-from tcw.utils import expired_contests
 from tcw.apps.contest.models import Contest
+from tcw_tasks.utils import expired_contests
 from tcw_tasks.models import Message
 
 
