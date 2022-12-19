@@ -14,7 +14,7 @@ def db():
 
 @pytest.fixture
 def contests():
-    # create 5 contests. 2 expired, 3 active
+    # create 5 contests. 2 expired, 4 active
     for i in [-2, -1, 1, 2, 3, 4]:
         c = Contest(
             name="random-%d" % i,
@@ -65,5 +65,6 @@ def test_entrants(entries):
 
 def test_expired():
     results = expired_contests()
+
     # two are expired times, one is expired because max entrants
     assert len(results) == 3
