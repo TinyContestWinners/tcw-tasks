@@ -34,6 +34,7 @@ def main():
 
 def finish_contests():
     contests = []
+    now = datetime.datetime.utcnow()
 
     try:
         contests = expired_contests()
@@ -47,11 +48,12 @@ def finish_contests():
             if c.attributes is None or 'winners' not in c.attributes:
                 winners = c.pick_winners()
                 c.attributes = {'winners': winners}
-                session.commit()
+                notify_owner(c)
 
-            notify_owner(c)
-            logger.info("Closing contest (%s) %s" % (c.name, c.title))
-            session.delete(c)
+            if c.expires < now:
+                logger.info("Closing contest (%s) %s" % (c.name, c.title))
+                session.delete(c)
+
             session.commit()
 
         except Exception as x:

@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='tcw-tasks',
-    version='0.1.4',
+    version='0.1.5',
     author='J Leary',
     author_email='tinycontestwinners@gmail.com',
     description='contest cleanup script for tcw app',
