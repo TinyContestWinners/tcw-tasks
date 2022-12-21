@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='tcw-tasks',
-    version='0.1.7',
+    version='0.2.0',
     author='J Leary',
     author_email='tinycontestwinners@gmail.com',
     description='contest cleanup script for tcw app',
@@ -14,7 +14,7 @@ setup(
     include_package_data=True,
     packages=find_packages(),
     install_requires=[
-        'tcw',
+        'tcw>=0.0.9',
         'jinja2',
         'sendgrid',
     ],

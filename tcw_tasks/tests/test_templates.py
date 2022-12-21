@@ -13,8 +13,8 @@ def test_text_template():
         'expires': datetime.datetime.now(),
         'attributes': {'winners': ['foo','bar','baz']},
     }
-
-    msg = jinja2.Template(TEXT_TEMPLATE).render(contest=obj)
+    winners = ['foo','bar','baz']
+    msg = jinja2.Template(TEXT_TEMPLATE).render(contest=obj, winners=winners)
     assert re.search('- number of winners: 3', msg)
     assert re.search('1. foo', msg)
     assert re.search('2. bar', msg)
@@ -31,6 +31,6 @@ def test_bad_contest():
         'expires': datetime.datetime.now(),
         'attributes': None,
     }
-
-    msg = jinja2.Template(TEXT_TEMPLATE).render(contest=obj)
+    winners = []
+    msg = jinja2.Template(TEXT_TEMPLATE).render(contest=obj, winners=winners)
     assert re.search('- number of winners: 0', msg)

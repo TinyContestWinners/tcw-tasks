@@ -7,12 +7,14 @@ from tcw_tasks.templates import TEXT_TEMPLATE, HTML_TEMPLATE
 
 
 class Formatter:
-    def text_from_template(self, contest):
-        msg = jinja2.Template(TEXT_TEMPLATE).render(contest=contest)
+    def text_from_template(self, contest, winners):
+        msg = jinja2.Template(TEXT_TEMPLATE).render(contest=contest,
+            winners=winners)
         return msg.strip()
 
-    def html_from_template(self, contest):
-        msg = jinja2.Template(HTML_TEMPLATE).render(contest=contest)
+    def html_from_template(self, contest, winners):
+        msg = jinja2.Template(HTML_TEMPLATE).render(contest=contest,
+            winners=winners)
         return msg.strip()
 
 
@@ -23,6 +25,7 @@ class Message(Formatter):
 
     def __init__(self, *args, **kwargs):
         self.contest = None
+        self.winners = []
         self.mail_from = os.getenv('TCW_MAIL_FROM', 'user@localhost')
         self.subject = 'Your Contest Kitty contest results'
         for k, v in kwargs.items():
@@ -45,8 +48,9 @@ class Message(Formatter):
             From(self.mail_from),
             To(self.contest.email),
             Subject(self.subject),
-            PlainTextContent(self.text_from_template(self.contest)),
-            HtmlContent(self.html_from_template(self.contest)))
+            PlainTextContent(self.text_from_template(self.contest, self.winners)),
+            HtmlContent(self.html_from_template(self.contest, self.winners))
+        )
 
         return msg
 
@@ -57,8 +61,8 @@ class Message(Formatter):
         msg['From'] = self.mail_from
         msg['To'] = self.contest.email
 
-        msg.set_content(self.text_from_template(self.contest))
-        msg.add_alternative(self.html_from_template(self.contest),
+        msg.set_content(self.text_from_template(self.contest, self.winners))
+        msg.add_alternative(self.html_from_template(self.contest, self.winners),
             subtype='html')
 
         return msg

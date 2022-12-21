@@ -25,8 +25,8 @@ def test_local_email():
         ['apple', 'lemon', 'banana', 'mango', 'kiwi', 'lime'],
         {'winners': ['lemon', 'lime', 'mango']}
     )
-
-    assert notify_owner(contest) == None
+    winners = ['lemon', 'lime', 'mango']
+    assert notify_owner(contest, winners) == None
 
 
 def test_sendgrid_email():
@@ -43,5 +43,6 @@ def test_sendgrid_email():
         ['apple', 'lemon', 'banana', 'mango', 'kiwi', 'lime'],
         {'winners': ['lemon', 'lime', 'mango']}
     )
+    winners = ['lemon', 'lime', 'mango']
 
-    assert notify_owner(contest) == None
+    assert notify_owner(contest, winners) == None

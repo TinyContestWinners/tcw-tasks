@@ -5,13 +5,13 @@ CONTEST EXPIRED:
 
 STATISTICS:
   - max_entrants: {{ contest.max_entrants }}
-  - number of winners: {{ contest.attributes.winners | length }}
+  - number of winners: {{ winners | length }}
   - sign ups: {{ contest.entrants | length }}
   - expired: {{ contest.expires.strftime('%Y-%m-%d %H:%M:%S') }} UTC
 
-{% if contest.attributes.winners | length -%}
+{% if winners | length -%}
 THE WINNERS:
-  {% for winner in contest.attributes.winners -%}
+  {% for winner in winners -%}
   {{ loop.index }}. {{ winner }}
   {% endfor %}
 
@@ -64,16 +64,16 @@ HTML_TEMPLATE = """
         <h3>Statistics</h3>
         <div>
             <div>max entrants = {{ contest.max_entrants }}</div>
-            <div>number of winners = {{ contest.attributes.winners | length }}</div>
+            <div>number of winners = {{ winners | length }}</div>
             <div>sign-ups = {{ contest.entrants | length }}</div>
             <div>expired = {{ contest.expires.strftime('%Y-%m-%d %H:%M:%S') }} UTC</div>
         </div>
 
-        {% if contest.attributes.winners | length %}
+        {% if winners | length %}
         <h3>The Winners</h3>
         <div class="card">
             <ol>
-              {% for winner in contest.attributes.winners -%}
+              {% for winner in winners -%}
               <li>{{ winner }}</li>
               {% endfor %}
             </ol>
