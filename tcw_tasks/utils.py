@@ -12,7 +12,7 @@ def expired_contests():
 
     now = datetime.datetime.utcnow()
 
-    subq = select([func.count(Contest.entrants)]).where(
+    subq = select(func.count(Contest.entrants)).where(
         Contest.id == Entrant.contest_id).scalar_subquery()
 
     contests = session.query(Contest).filter(
