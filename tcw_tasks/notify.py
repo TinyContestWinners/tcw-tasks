@@ -30,10 +30,13 @@ def main():
     init_engine(uri)
     logger.info("STARTING. Debug=%s" % args.debug)
 
+    '''
     while True:
         finish_contests()
         logger.debug("Sleeping...")
         time.sleep(60)
+    '''
+    finish_contests()
 
 
 def finish_contests():

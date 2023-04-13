@@ -27,7 +27,7 @@ class Message(Formatter):
         self.contest = None
         self.winners = []
         self.mail_from = os.getenv('TCW_MAIL_FROM', 'user@localhost')
-        self.subject = 'Your Contest Kitty contest results'
+        self.subject = 'Your Tiny Contest Winners contest results'
         for k, v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)

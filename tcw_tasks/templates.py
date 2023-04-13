@@ -23,7 +23,7 @@ Sorry. There were no winners selected, because no one signed up.
 
 Please do not respond directly to this e-mail. The originating e-mail account is not monitored.
 
-thecontestkitty.com
+tinycontestwinners.com
 """
 
 HTML_TEMPLATE = """
@@ -84,7 +84,7 @@ HTML_TEMPLATE = """
             Please do not respond directly to this e-mail. The originating e-mail account is not monitored.
             </p>
             <p>
-            <a href="https://thecontestkitty.com">thecontestkitty.com</a>
+            <a href="https://tinycontestwinners.com">tinycontestwinners.com</a>
             </p>
         </footer>
         {%- else %}
